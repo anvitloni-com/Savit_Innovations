@@ -43,9 +43,13 @@ function displayCart() {
 
     cart.forEach(item => {
         let li = document.createElement("li");
-        li.innerText = item.name + " - ₹" + item.price;
+
+        let itemTotal = item.price * item.qty;
+
+        li.innerText = item.name + " x" + item.qty + " - ₹" + itemTotal;
+
         list.appendChild(li);
-        total += item.price;
+        total += itemTotal;
     });
 
     document.getElementById("total").innerText = "Total: ₹" + total;
