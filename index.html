@@ -35,21 +35,66 @@
 <!-- PRODUCTS -->
 <section id="products" class="products">
 
-<div class="product" data-category="Handels">
+<div class="product" data-category="tools">
     <span class="badge">SALE</span>
     <img src="images/drill.jpg">
     <h2>Drill Machine</h2>
     <p>₹1500</p>
-    <button onclick="addToCart('Drill Machine', 1500)">Add to Cart</button>
-</div>
 
-    <div class="product" data-category="Knob">
+    <!-- Color Dropdown -->
+    <select class="color">
+        <option value="">Select Color</option>
+        <option value="Red">Red</option>
+        <option value="Black">Black</option>
+        <option value="Blue">Blue</option>
+    </select>
+
+    <!-- Size Dropdown -->
+    <select class="size">
+        <option value="">Select Size</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+        <option value="XL">XL</option>
+    </select>
+
+    <!-- Add to Cart -->
+    <button onclick="addToCartWithOptions(this, 'Drill Machine', 1500)">
+        Add to Cart
+    </button>
+
+</div>
+   
+<div class="product" data-category="tools">
     <span class="badge">SALE</span>
-        <img src="images/hammer.jpg">
-        <h2>Steel Hammer</h2>
-        <p>₹300</p>
-        <button onclick="addToCart('Steel Hammer', 300)">Add to Cart</button>
-    </div>
+    <img src="images/drill.jpg">
+    <h2>Drill Machine</h2>
+    <p>₹1500</p>
+
+    <!-- Color Dropdown -->
+    <select class="color">
+        <option value="">Select Color</option>
+        <option value="Red">Red</option>
+        <option value="Black">Black</option>
+        <option value="Blue">Blue</option>
+    </select>
+
+    <!-- Size Dropdown -->
+    <select class="size">
+        <option value="">Select Size</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+        <option value="XL">XL</option>
+    </select>
+
+    <!-- Add to Cart -->
+    <button onclick="addToCartWithOptions(this, 'Drill Machine', 1500)">
+        Add to Cart
+    </button>
+
+</div>
+   
 
 </section>
 
