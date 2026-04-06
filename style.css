@@ -226,3 +226,16 @@ header {
     from {opacity: 0;}
     to {opacity: 1;}
 }
+.cart button {
+    margin-left: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart button:hover {
+    background: darkred;
+}
