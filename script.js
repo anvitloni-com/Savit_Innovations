@@ -1,12 +1,24 @@
-// Load cart from browser storage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Save cart to storage
+// Save cart
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Add item
+// Change quantity buttons
+function changeQty(button, amount) {
+    let container = button.parentElement;
+    let qtySpan = container.querySelector(".qty");
+
+    let qty = parseInt(qtySpan.innerText);
+    qty += amount;
+
+    if (qty < 1) qty = 1;
+
+    qtySpan.innerText = qty;
+}
+
+// Add to cart with options + quantity
 function addToCartWithOptions(button, name, price) {
     let product = button.parentElement;
 
@@ -19,11 +31,10 @@ function addToCartWithOptions(button, name, price) {
         return;
     }
 
-    let itemName = name + " (" + color + ", " + size + ")";
-    
-    // Save quantity separately
     cart.push({
-        name: itemName,
+        name: name,
+        color: color,
+        size: size,
         price: price,
         qty: qty
     });
@@ -31,8 +42,6 @@ function addToCartWithOptions(button, name, price) {
     saveCart();
     displayCart();
 }
-
-
 
 // Display cart
 function displayCart() {
@@ -46,9 +55,14 @@ function displayCart() {
 
         let itemTotal = item.price * item.qty;
 
-        li.innerText = item.name + " x" + item.qty + " - ₹" + itemTotal;
+        li.innerText =
+            item.name +
+            " (" + item.color + ", " + item.size + ")" +
+            " x" + item.qty +
+            " - ₹" + itemTotal;
 
         list.appendChild(li);
+
         total += itemTotal;
     });
 
@@ -60,7 +74,11 @@ function checkout() {
     let message = "I want to order:\n";
 
     cart.forEach(item => {
-        message += item.name + " - ₹" + item.price + "\n";
+        message +=
+            item.name +
+            " (" + item.color + ", " + item.size + ")" +
+            " x" + item.qty +
+            " - ₹" + (item.price * item.qty) + "\n";
     });
 
     let url = "https://wa.me/919XXXXXXXXX?text=" + encodeURIComponent(message);
@@ -91,35 +109,7 @@ function filterCategory(category) {
     });
 }
 
-// Load cart when page opens
-window.onload = function() {
+// Load cart on start
+window.onload = function () {
     displayCart();
 };
-function addToCartWithOptions(button, name, price) {
-    let product = button.parentElement;
-
-    let color = product.querySelector(".color").value;
-    let size = product.querySelector(".size").value;
-
-    if (!color || !size) {
-        alert("Please select color and size");
-        return;
-    }
-
-    let itemName = name + " (" + color + ", " + size + ")";
-    cart.push({name: itemName, price});
-
-    saveCart();
-    displayCart();
-}
-function changeQty(button, amount) {
-    let container = button.parentElement;
-    let qtySpan = container.querySelector(".qty");
-
-    let qty = parseInt(qtySpan.innerText);
-    qty += amount;
-
-    if (qty < 1) qty = 1;
-
-    qtySpan.innerText = qty;
-}
