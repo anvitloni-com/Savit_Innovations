@@ -77,3 +77,45 @@ footer {
     color: white;
     padding: 20px;
 }
+/* Mobile Responsive Design */
+@media (max-width: 600px) {
+
+    /* Header */
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Navbar links */
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* Hero text */
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    /* Products layout */
+    .products {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    /* Product cards */
+    .product {
+        margin: 10px;
+    }
+
+    /* Search box */
+    .controls input {
+        width: 90%;
+    }
+
+    /* Cart section */
+    .cart {
+        margin: 10px;
+        padding: 15px;
+    }
+}
