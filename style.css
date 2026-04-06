@@ -119,3 +119,63 @@ footer {
         padding: 15px;
     }
 }
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Better font + background */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(to right, #eef2f3, #dfe9f3);
+}
+
+/* Navbar glass effect */
+header {
+    backdrop-filter: blur(10px);
+    background: rgba(44, 62, 80, 0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Hero upgrade */
+.hero {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    animation: fadeIn 1s ease-in;
+}
+
+/* Product card premium */
+.product {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+/* Hover animation */
+.product:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Button upgrade */
+.product button {
+    background: linear-gradient(45deg, #25D366, #1ebe5d);
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.product button:hover {
+    transform: scale(1.05);
+}
+
+/* Cart styling */
+.cart {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
