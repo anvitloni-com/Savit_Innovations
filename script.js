@@ -7,8 +7,22 @@ function saveCart() {
 }
 
 // Add item
-function addToCart(name, price) {
-    cart.push({name, price});
+function addToCartWithOptions(button, name, price) {
+    let product = button.parentElement;
+
+    let color = product.querySelector(".color").value;
+    let size = product.querySelector(".size").value;
+    let qty = parseInt(product.querySelector(".qty").innerText);
+
+    if (!color || !size) {
+        alert("Please select color and size");
+        return;
+    }
+
+    let itemName = name + " (" + color + ", " + size + ") x" + qty;
+
+    cart.push({name: itemName, price: price * qty});
+
     saveCart();
     displayCart();
 }
@@ -86,4 +100,15 @@ function addToCartWithOptions(button, name, price) {
 
     saveCart();
     displayCart();
+}
+function changeQty(button, amount) {
+    let container = button.parentElement;
+    let qtySpan = container.querySelector(".qty");
+
+    let qty = parseInt(qtySpan.innerText);
+    qty += amount;
+
+    if (qty < 1) qty = 1;
+
+    qtySpan.innerText = qty;
 }
