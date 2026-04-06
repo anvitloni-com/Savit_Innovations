@@ -179,7 +179,12 @@ header {
 .product:hover {
     transform: translateY(-8px) scale(1.02);
 }
-
+.product select {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 6px;
+}
 /* Button upgrade */
 .product button {
     background: linear-gradient(45deg, #25D366, #1ebe5d);
