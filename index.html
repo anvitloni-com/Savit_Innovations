@@ -16,29 +16,46 @@
     </nav>
 </header>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 <section class="hero">
     <h1>Quality Hardware Products</h1>
-    <p>Fast delivery across Karnataka</p>
+    <p>Delivery across Karnataka</p>
 </section>
+
+<!-- SEARCH + FILTER -->
+<div class="controls">
+    <input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()">
+
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('tools')">Tools</button>
+    <button onclick="filterCategory('electrical')">Electrical</button>
+</div>
 
 <!-- PRODUCTS -->
 <section id="products" class="products">
 
-    <div class="product">
+    <div class="product" data-category="tools">
         <img src="images/spanner.jpg">
         <h2>Adjustable Spanner</h2>
         <p>₹250</p>
-        <a href="https://wa.me/919980056119?text=I want to order Adjustable Spanner">Order</a>
+        <button onclick="addToCart('Adjustable Spanner', 250)">Add to Cart</button>
     </div>
 
-    <div class="product">
+    <div class="product" data-category="tools">
         <img src="images/hammer.jpg">
         <h2>Steel Hammer</h2>
         <p>₹300</p>
-        <a href="https://wa.me/919980056119?text=I want to order Steel Hammer">Order</a>
+        <button onclick="addToCart('Steel Hammer', 300)">Add to Cart</button>
     </div>
 
+</section>
+
+<!-- CART -->
+<section class="cart">
+    <h2>🛒 Cart</h2>
+    <ul id="cart-items"></ul>
+    <p id="total"></p>
+    <button onclick="checkout()">Order on WhatsApp</button>
 </section>
 
 <!-- FOOTER -->
@@ -47,6 +64,8 @@
     <p>Delivery: Karnataka only</p>
     <p>© 2026 Savit Innovations</p>
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
