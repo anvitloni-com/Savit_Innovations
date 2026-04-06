@@ -19,13 +19,20 @@ function addToCartWithOptions(button, name, price) {
         return;
     }
 
-    let itemName = name + " (" + color + ", " + size + ") x" + qty;
-
-    cart.push({name: itemName, price: price * qty});
+    let itemName = name + " (" + color + ", " + size + ")";
+    
+    // Save quantity separately
+    cart.push({
+        name: itemName,
+        price: price,
+        qty: qty
+    });
 
     saveCart();
     displayCart();
 }
+
+
 
 // Display cart
 function displayCart() {
