@@ -82,3 +82,18 @@ footer {
     padding: 15px;
     margin-top: 20px;
 }
+/* Navbar */
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
