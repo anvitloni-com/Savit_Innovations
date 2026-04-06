@@ -70,3 +70,20 @@ function filterCategory(category) {
 window.onload = function() {
     displayCart();
 };
+function addToCartWithOptions(button, name, price) {
+    let product = button.parentElement;
+
+    let color = product.querySelector(".color").value;
+    let size = product.querySelector(".size").value;
+
+    if (!color || !size) {
+        alert("Please select color and size");
+        return;
+    }
+
+    let itemName = name + " (" + color + ", " + size + ")";
+    cart.push({name: itemName, price});
+
+    saveCart();
+    displayCart();
+}
