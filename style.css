@@ -80,6 +80,25 @@ nav a {
 .product img:hover {
     transform: scale(1.1);
 }
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.quantity button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.quantity .qty {
+    font-size: 16px;
+    min-width: 20px;
+    text-align: center;
+}
 
 .product button {
     background: #25D366;
