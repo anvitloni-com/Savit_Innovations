@@ -50,23 +50,24 @@ function displayCart() {
 
     list.innerHTML = "";
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
         let li = document.createElement("li");
 
-        let itemTotal = item.price * item.qty;
-
-        li.innerText =
-            item.name +
-            " (" + item.color + ", " + item.size + ")" +
-            " x" + item.qty +
-            " - ₹" + itemTotal;
+        li.innerHTML = `
+            ${item.name} - ₹${item.price}
+            <button onclick="removeItem(${index})">❌</button>
+        `;
 
         list.appendChild(li);
-
-        total += itemTotal;
+        total += item.price;
     });
 
     document.getElementById("total").innerText = "Total: ₹" + total;
+}
+function removeItem(index) {
+    cart.splice(index, 1);   // remove item
+    saveCart();              // update storage
+    displayCart();           // refresh UI
 }
 
 // Checkout
