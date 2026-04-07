@@ -63,9 +63,16 @@
     <button onclick="changeQty(this, 1)">+</button>
 </div>
     <!-- Add to Cart -->
-    <button onclick="addToCartWithOptions(this, 'Drill Machine', 1500)">
-        Add to Cart
-    </button>
+    <button onclick="
+addToCart(
+'Drill Machine',
+1500,
+document.getElementById('qty1').innerText,
+document.getElementById('color1').value,
+document.getElementById('size1').value
+)">
+Add to Cart
+</button>
 
 </div>
    
@@ -97,9 +104,16 @@
     <button onclick="changeQty(this, 1)">+</button>
 </div>
     <!-- Add to Cart -->
-    <button onclick="addToCartWithOptions(this, 'Drill Machine', 1500)">
-        Add to Cart
-    </button>
+   <button onclick="
+addToCart(
+'Drill Machine',
+1500,
+document.getElementById('qty1').innerText,
+document.getElementById('color1').value,
+document.getElementById('size1').value
+)">
+Add to Cart
+</button>
 
 </div>
    
