@@ -5,7 +5,7 @@ function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// CHANGE QUANTITY
+// CHANGE QTY
 function changeQty(id, change) {
     let el = document.getElementById(id);
     let qty = Number(el.innerText);
@@ -16,16 +16,29 @@ function changeQty(id, change) {
     el.innerText = qty;
 }
 
-// ADD TO CART
+// ADD TO CART (FIXED)
 function addToCart(name, price, qtyId, colorId, sizeId) {
 
-    let quantity = Number(document.getElementById(qtyId).innerText);
-    let color = document.getElementById(colorId).value;
-    let size = document.getElementById(sizeId).value;
+    let qtyEl = document.getElementById(qtyId);
+    let colorEl = document.getElementById(colorId);
+    let sizeEl = document.getElementById(sizeId);
 
-    let item = { name, price, quantity, color, size };
+    if (!qtyEl || !colorEl || !sizeEl) {
+        alert("Error: IDs not found");
+        return;
+    }
 
-    cart.push(item);
+    let quantity = Number(qtyEl.innerText);
+    let color = colorEl.value;
+    let size = sizeEl.value;
+
+    cart.push({
+        name: name,
+        price: Number(price),
+        quantity: quantity,
+        color: color,
+        size: size
+    });
 
     saveCart();
     displayCart();
@@ -35,6 +48,8 @@ function addToCart(name, price, qtyId, colorId, sizeId) {
 function displayCart() {
     let list = document.getElementById("cart-items");
     let total = 0;
+
+    if (!list) return;
 
     list.innerHTML = "";
 
@@ -51,33 +66,18 @@ function displayCart() {
         `;
 
         list.appendChild(li);
-
         total += itemTotal;
     });
 
     document.getElementById("total").innerText = "Total: ₹" + total;
 }
 
-// REMOVE ITEM
+// REMOVE
 function removeItem(index) {
     cart.splice(index, 1);
     saveCart();
     displayCart();
 }
 
-// CHECKOUT
-function checkout() {
-    let message = "Order:\n";
-
-    cart.forEach(item => {
-        message += `${item.name} (${item.color}, ${item.size}) x ${item.quantity}\n`;
-    });
-
-    let url = "https://wa.me/919XXXXXXXXX?text=" + encodeURIComponent(message);
-    window.open(url);
-}
-
-// LOAD ON START
+// LOAD
 window.onload = displayCart;
-<script src="script.js"></script>
-</body>
