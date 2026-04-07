@@ -3,133 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savit Innovations | Premium Hardware Solutions</title>
+    <title>Savit Innovations | Premium Hardware</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">SAVIT <span>INNOVATIONS</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
-        </div>
-    </nav>
-
-    <header id="home" class="hero">
-        <div class="hero-content">
-            <h1>Elevate Your Interior</h1>
-            <p>Premium Handles, Knobs, and Concealed Hardware.</p>
-            <a href="#products" class="btn">View Catalog</a>
-        </div>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Savit Innovations</div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#products">Products</a>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <section id="products" class="container">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Premium Handles & Knobs</h1>
+            <p>Elevate your furniture with Savit Innovations.</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="products" class="product-container">
         <h2 class="section-title">Our Collection</h2>
-        <div class="product-grid" id="product-display">
+        <div class="product-grid" id="product-grid">
             </div>
     </section>
 
-   <section id="contact" class="container">
-    <h2 class="section-title">Get in Touch</h2>
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <p><i class="fas fa-phone"></i> Call us: <strong>+91 9980056119</strong></p>
-        <p><i class="fab fa-whatsapp"></i> WhatsApp: <strong>+91 9980056119</strong></p>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="total">Total: ₹<span id="cart-total">0</span></div>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">Checkout to WhatsApp</button>
+        </div>
     </div>
-    
-    <form id="contact-form">
-        <input type="text" id="cust-name" placeholder="Your Name" required>
-        <textarea id="cust-msg" placeholder="General Inquiry..." rows="5"></textarea>
-        <button type="submit" class="btn">Send via WhatsApp</button>
-    </form>
-</section>
 
     <footer>
-        <p>&copy; 2026 Savit Innovations. Released under the MIT License.</p>
+        <p>&copy; 2024 Savit Innovations | MIT License</p>
+        <p>Contact: +91 9980056119</p>
     </footer>
-    <nav class="navbar">
-    <div class="logo">SAVIT <span>INNOVATIONS</span></div>
-    <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="cart-icon" onclick="toggleCart()" style="cursor: pointer;">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count">0</span>
-    </div>
-</nav>
-
-<div id="cart-modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="toggleCart()">&times;</span>
-        <h2>Your Shopping Cart</h2>
-        <div id="cart-items-list">
-            </div>
-        <hr>
-        <div class="cart-total">
-            <strong>Total Items: <span id="total-items">0</span></strong>
-        </div>
-        <button class="btn" style="width: 100%; margin-top: 10px; background: #25D366;" onclick="checkoutWhatsApp()">
-            Place Order via WhatsApp
-        </button>
-    </div>
-</div>
 
     <script src="script.js"></script>
-    <nav class="navbar">
-    <div class="logo">SAVIT <span>INNOVATIONS</span></div>
-    <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#products">Products</a></li>
-    </ul>
-    <div class="cart-container" onclick="openCart()" style="cursor: pointer; position: relative; padding: 10px;">
-        <i class="fas fa-shopping-cart" style="font-size: 1.5rem;"></i>
-        <span id="cart-count">0</span>
-    </div>
-</nav>
-
-<div id="cart-drawer" class="cart-drawer">
-    <div class="drawer-header">
-        <span>Shopping Cart</span>
-        <span class="close-drawer" onclick="closeCart()">&times;</span>
-    </div>
-    <div id="cart-items-list" class="drawer-body">
-        </div>
-    <div class="drawer-footer">
-        <div class="total-row">
-            <span>Subtotal:</span>
-            <span id="cart-total-qty">0 items</span>
-        </div>
-        <button class="whatsapp-btn" onclick="sendOrderToWhatsApp()">
-            Proceed to Checkout (WhatsApp)
-        </button>
-    </div>
-</div>
-
-<div id="cart-overlay" class="overlay" onclick="closeCart()"></div>
-</nav>
-
-<div id="cart-modal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close" onclick="closeCart()">&times;</span>
-        <h2>Your Shopping Cart</h2>
-        <hr>
-        <div id="cart-items-list">
-            </div>
-        <div class="cart-footer" style="margin-top: 20px;">
-            <p><strong>Total Items:</strong> <span id="cart-total-qty">0</span></p>
-            <button class="btn" style="width: 100%; background: #25D366; color: white;" onclick="sendOrderToWhatsApp()">
-                <i class="fab fa-whatsapp"></i> Confirm Order via WhatsApp
-            </button>
-        </div>
-    </div>
-</div>
 </body>
 </html>
