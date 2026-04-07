@@ -12,10 +12,8 @@
     <header>
         <nav class="navbar">
             <div class="logo">Savit Innovations</div>
-            <div class="contact">Contact:+91 9980056119</div>
             <div class="nav-links">
                 <a href="#">Home</a>
-                <a href="#products">Products</a>
                 <div class="cart-icon" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
@@ -23,51 +21,41 @@
             </div>
         </nav>
     </header>
-     <section class="hero">
-        <div class="hero-content">
-            <h1>Premium Handles & Knobs</h1>
-            <p>Elevate your furniture with Savit Innovations.</p>
-            <a href="#products" class="btn">Shop Now</a>
+
+    <section class="controls">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for handles, knobs, or colors..." onkeyup="filterProducts()">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="filter-options">
+            <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
+            <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
+            <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
+            <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed Handles</button>
         </div>
     </section>
-    <section class="controls">
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search for handles, knobs, or colors..." onkeyup="filterProducts()">
-        <button class="search-btn"><i class="fas fa-search"></i></button>
-    </div>
-           <div class="filter-options">
-        <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
-        <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
-        <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
-        <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed Handles</button>
-    </div>
-</section>
-     <div> <section id="products" class="product-container">
-        <h2 class="section-title">Our Collection</h2>
-        <div class="product-grid" id="product-grid"></section>
-        </div>
 
-<section id="products" class="product-container">
-    <div class="product-grid" id="product-grid">
-        </div>
-</section>
-
+    <section id="products" class="product-container">
+        <div class="product-grid" id="product-grid">
+            </div>
+    </section>
 
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Your Cart</h3>
+            <h3>Your Shopping Cart</h3>
             <span class="close-cart" onclick="toggleCart()">&times;</span>
         </div>
         <div id="cart-items"></div>
         <div class="cart-footer">
-            <div class="total">Total: ₹<span id="cart-total">0</span></div>
-            <button class="checkout-btn" onclick="checkoutWhatsApp()">Checkout to WhatsApp</button>
+            <div class="total">Grand Total: ₹<span id="cart-total">0</span></div>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">Confirm Order via WhatsApp</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Savit Innovations | MIT License</p>
-        <p>Contact: +91 9980056119</p>
+        <p>&copy; 2026 Savit Innovations | MIT License</p>
+        <p><i class="fab fa-whatsapp"></i> Support: +91 9980056119</p>
     </footer>
 
     <script src="script.js"></script>
