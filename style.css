@@ -154,3 +154,36 @@ footer {
     overflow-y: auto;
     margin-top: 20px;
 }
+/* Modal Background */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+}
+
+/* Modal Box */
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close {
+    position: absolute;
+    right: 15px; top: 10px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.cart-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    font-size: 14px;
+}
