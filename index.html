@@ -1,74 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Savit Innovations</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savit Innovations | Premium Hardware Solutions</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
 
-<header>
-    <h1>🔧 Savit Innovations</h1>
-</header>
+    <nav class="navbar">
+        <div class="logo">SAVIT <span>INNOVATIONS</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
 
-<section class="products">
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>Elevate Your Interior</h1>
+            <p>Premium Handles, Knobs, and Concealed Hardware.</p>
+            <a href="#products" class="btn">View Catalog</a>
+        </div>
+    </header>
 
-    <!-- PRODUCT 1 -->
-    <div class="product">
-        <h2>Drill Machine</h2>
-        <p>₹1500</p>
+    <section id="products" class="container">
+        <h2 class="section-title">Our Collection</h2>
+        <div class="product-grid" id="product-display">
+            </div>
+    </section>
 
-        <select id="color1">
-    <option>Red</option>
-    <option>Black</option>
-</select>
+    <section id="contact" class="container">
+        <h2 class="section-title">Inquiry & Support</h2>
+        <form id="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Tell us about your requirements..." rows="5"></textarea>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
 
-<select id="size1">
-    <option>96mm</option>
-    <option>160mm</option>
-</select>
+    <footer>
+        <p>&copy; 2026 Savit Innovations. Released under the MIT License.</p>
+    </footer>
 
-<div>
-    <button onclick="changeQty('qty1', -1)">-</button>
-    <span id="qty1">1</span>
-    <button onclick="changeQty('qty1', 1)">+</button>
-</div>
-       <button onclick="addToCart('Drill Machine', 1500, 'qty1', 'color1', 'size1')">
-Add to Cart
-</button>
-    <!-- PRODUCT 2 -->
-    <div class="product">
-        <h2>Steel Hammer</h2>
-        <p>₹300</p>
-
-       <select id="color1">
-    <option>Red</option>
-    <option>Black</option>
-</select>
-
-<select id="size1">
-    <option>96mm</option>
-    <option>160mm</option>
-</select>
-
-<div>
-    <button onclick="changeQty('qty1', -1)">-</button>
-    <span id="qty1">1</span>
-    <button onclick="changeQty('qty1', 1)">+</button>
-</div>
-
-        <button onclick="addToCart( 'Steel Hammer',300,'qty2','color2','size2')">Add to Cart</button>
-    </div>
-
-</section>
-
-<!-- CART -->
-<section class="cart">
-    <h2>Cart</h2>
-    <ul id="cart-items"></ul>
-    <p id="total">Total: ₹0</p>
-</section>
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
