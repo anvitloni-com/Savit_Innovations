@@ -200,3 +200,61 @@ body {
     color: #565959;
     font-style: italic;
 }
+/* Controls (Search & Filter) */
+.controls {
+    padding: 20px 5%;
+    background: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-container {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+}
+
+#search-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-btn {
+    background: var(--amazon-orange);
+    border: 1px solid #ddd;
+    padding: 0 20px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.filter-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.filter-btn.active {
+    background: var(--amazon-navy);
+    color: white;
+    border-color: var(--amazon-navy);
+}
+
+.filter-btn:hover {
+    background: #e7e7e7;
+}
