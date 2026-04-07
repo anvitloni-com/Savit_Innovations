@@ -158,3 +158,45 @@ body {
     background: #ccc;
     cursor: not-allowed;
 }
+/* Product Price Styling */
+.price {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #B12704; /* Amazon's price color */
+    margin: 10px 0;
+}
+
+/* Dropdown Container */
+.selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.select-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-group label {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.select-group select {
+    width: 60%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f0f2f2; /* Light grey like Amazon selects */
+    cursor: pointer;
+}
+
+/* Cart Item Adjustment */
+.cart-item-info small {
+    color: #565959;
+    font-style: italic;
+}
