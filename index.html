@@ -1,116 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Savit Innovations | Hardware Store Karnataka</title>
-   <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>Savit Innovations</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
 
 <header>
-    <div class="logo">🔧 Savit Innovations</div>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#products">Products</a>
-        <a href="#contact">Contact</a>
-    </nav>
+    <h1>🔧 Savit Innovations</h1>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-    <h1>SAVIT INNOVATIONS</h1>
-    <p>Delivery across Karnataka</p>
-</section>
+<section class="products">
 
-<!-- SEARCH + FILTER -->
-<div class="controls">
-    <input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()">
+    <!-- PRODUCT 1 -->
+    <div class="product">
+        <h2>Drill Machine</h2>
+        <p>₹1500</p>
 
-    <button onclick="filterCategory('all')">All</button>
-    <button onclick="filterCategory('handels')">Handels</button>
-    <button onclick="filterCategory('knobs')">Knobs</button>
-    <button onclick="filterCategory('concealed handels')">Concealed Handels</button>
-</div>
+        <select id="color1">
+            <option>Red</option>
+            <option>Black</option>
+        </select>
 
-<!-- PRODUCTS -->
-<section id="products" class="products">
+        <select id="size1">
+            <option>96mm</option>
+            <option>160mm</option>
+        </select>
 
-<div class="product" data-category="tools">
+        <div>
+            <button onclick="changeQty('qty1', -1)">-</button>
+            <span id="qty1">1</span>
+            <button onclick="changeQty('qty1', 1)">+</button>
+        </div>
 
-    <h2>Drill Machine</h2>
-    <p>₹1500</p>
-
-    <!-- Color dropdown -->
-    <select id="color1">
-        <option>Red</option>
-        <option>Black</option>
-    </select>
-
-    <!-- Size dropdown -->
-    <select id="size1">
-        <option>96mm</option>
-        <option>160mm</option>
-    </select>
-
-    <!-- Quantity -->
-    <div>
-        <button onclick="changeQty('qty1', -1)">-</button>
-        <span id="qty1">1</span>
-        <button onclick="changeQty('qty1', 1)">+</button>
+        <button onclick="addToCart(
+            'Drill Machine',
+            1500,
+            'qty1',
+            'color1',
+            'size1'
+        )">Add to Cart</button>
     </div>
 
-    <!-- Add to cart -->
-    <button onclick="
-    addToCart(
-        'Drill Machine',
-        1500,
-        document.getElementById('qty1').innerText,
-        document.getElementById('color1').value,
-        document.getElementById('size1').value
-    )">
-    Add to Cart
-    </button>
+    <!-- PRODUCT 2 -->
+    <div class="product">
+        <h2>Steel Hammer</h2>
+        <p>₹300</p>
 
-</div>
-    
-<div class="product" data-category="tools">
+        <select id="color2">
+            <option>Silver</option>
+            <option>Black</option>
+        </select>
 
-    <h2>Spanner.</h2>
-    <p>₹1500</p>
+        <select id="size2">
+            <option>Small</option>
+            <option>Large</option>
+        </select>
 
-    <!-- Color dropdown -->
-    <select id="color1">
-        <option>Red</option>
-        <option>Black</option>
-    </select>
+        <div>
+            <button onclick="changeQty('qty2', -1)">-</button>
+            <span id="qty2">1</span>
+            <button onclick="changeQty('qty2', 1)">+</button>
+        </div>
 
-    <!-- Size dropdown -->
-    <select id="size1">
-        <option>96mm</option>
-        <option>160mm</option>
-    </select>
-
-    <!-- Quantity -->
-    <div>
-        <button onclick="changeQty('qty1', -1)">-</button>
-        <span id="qty1">1</span>
-        <button onclick="changeQty('qty1', 1)">+</button>
+        <button onclick="addToCart(
+            'Steel Hammer',
+            300,
+            'qty2',
+            'color2',
+            'size2'
+        )">Add to Cart</button>
     </div>
-
-    <!-- Add to cart -->
-    <button onclick="
-    addToCart(
-        'Drill Machine',
-        1500,
-        document.getElementById('qty1').innerText,
-        document.getElementById('color1').value,
-        document.getElementById('size1').value
-    )">
-    Add to Cart
-    </button>
-
-</div>
-   
 
 </section>
 
@@ -118,16 +79,9 @@
 <section class="cart">
     <h2>🛒 Cart</h2>
     <ul id="cart-items"></ul>
-    <p id="total"></p>
+    <p id="total">Total: ₹0</p>
     <button onclick="checkout()">Order on WhatsApp</button>
 </section>
-
-<!-- FOOTER -->
-<footer id="contact">
-    <p>📞 9980056119</p>
-    <p>Delivery: Karnataka only</p>
-    <p>© 2026 Savit Innovations</p>
-</footer>
 
 <script src="script.js"></script>
 
