@@ -105,3 +105,12 @@ footer {
     padding: 2rem;
     margin-top: 2rem;
 }
+/* WhatsApp Specific Styling */
+.fa-whatsapp {
+    margin-right: 8px;
+}
+
+.product-card .btn:hover {
+    background: #128C7E !important; /* Darker WhatsApp Green */
+    transform: scale(1.05);
+}
