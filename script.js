@@ -88,6 +88,15 @@ function filterCategory(category) {
         }
     });
 }
+function changeQty(id, change) {
+    let el = document.getElementById(id);
+    let qty = Number(el.innerText);
+
+    qty += change;
+    if (qty < 1) qty = 1;
+
+    el.innerText = qty;
+}
 
 // Load cart on start
 window.onload = function () {
