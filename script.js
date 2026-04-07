@@ -1,155 +1,89 @@
-const myWhatsAppNumber = "919980056119";
-let shoppingCart = [];
+const myWhatsApp = "919980056119";
+let cart = [];
 
+// Your Product Database
 const inventory = [
-    { id: 101, name: "Designer Door Handle", price: "₹1,200" },
-    { id: 102, name: "Luxury Cabinet Knob", price: "₹350" },
-    { id: 103, name: "Concealed Wardrobe Pull", price: "₹1,500" },
-    { id: 104, name: "Antique Finish Handle", price: "₹900" }
+    { id: 1, name: "Savit Modern Brass Handle", price: 1250 },
+    { id: 2, name: "Concealed Wardrobe Pull", price: 1800 },
+    { id: 3, name: "Matte Black Designer Knob", price: 450 },
+    { id: 4, name: "Polished Chrome Lever", price: 950 },
+    { id: 5, name: "Antique Finish Main Door Handle", price: 2500 }
 ];
 
-// Load products into the website
-function loadProducts() {
+// Initialize Website
+document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('product-display');
     inventory.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'product-card';
-        div.innerHTML = `
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
             <h3>${item.name}</h3>
-            <p>${item.price}</p>
-            <button class="btn" onclick="addToCart(${item.id})">Add to Cart</button>
+            <p class="price">₹${item.price}</p>
+            <button class="btn-add" onclick="addToCart(${item.id})">Add to Cart</button>
         `;
-        grid.appendChild(div);
+        grid.appendChild(card);
     });
-}
+});
 
-// 1. ADD TO CART ONLY (No WhatsApp yet)
+// Cart Functions
 function addToCart(id) {
     const product = inventory.find(p => p.id === id);
-    shoppingCart.push(product);
-    updateCartNotification();
-    alert(product.name + " added to cart!");
-}
-
-function updateCartNotification() {
-    document.getElementById('cart-count').innerText = shoppingCart.length;
-}
-
-// 2. SHOW CART ITEMS
-function openCart() {
-    const modal = document.getElementById('cart-modal');
-    const list = document.getElementById('cart-items-list');
-    modal.style.display = "block";
-    
-    list.innerHTML = ""; // Clear current view
-    if (shoppingCart.length === 0) {
-        list.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
-        shoppingCart.forEach((item, index) => {
-            list.innerHTML += `
-                <div class="cart-item" style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span>${item.name}</span>
-                    <span>${item.price}</span>
-                    <button onclick="removeFromCart(${index})" style="color:red; border:none; background:none; cursor:pointer;">Remove</button>
-                </div>`;
-        });
-    }
-    document.getElementById('cart-total-qty').innerText = shoppingCart.length;
-}
-
-function closeCart() {
-    document.getElementById('cart-modal').style.display = "none";
+    cart.push(product);
+    updateCartDisplay();
+    // Quick visual feedback
+    document.getElementById('live-cart').scrollIntoView({ behavior: 'smooth' });
 }
 
 function removeFromCart(index) {
-    shoppingCart.splice(index, 1);
-    updateCartNotification();
-    openCart(); // Refresh the list
+    cart.splice(index, 1);
+    updateCartDisplay();
 }
 
-// 3. FINAL STEP: SEND TO WHATSAPP
-function sendOrderToWhatsApp() {
-    if (shoppingCart.length === 0) {
-        alert("Please add items to your cart first!");
-        return;
-    }
+function updateCartDisplay() {
+    const container = document.getElementById('cart-items-container');
+    const emptyMsg = document.getElementById('cart-empty-msg');
+    const summary = document.getElementById('cart-summary');
+    const countBadge = document.getElementById('cart-count');
+    const totalSpan = document.getElementById('total-amount');
 
-    let message = "Hello Savit Innovations! I would like to place an order for:\n\n";
-    shoppingCart.forEach((item, i) => {
-        message += `${i + 1}. ${item.name} (${item.price})\n`;
-    });
-    message += `\nTotal Items: ${shoppingCart.length}\nPlease confirm availability.`;
-
-    const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-}
-
-document.addEventListener('DOMContentLoaded', loadProducts);
-// Ensure this matches your actual WhatsApp number
-const myWhatsAppNumber = "919980056119";
-let shoppingCart = [];
-
-// Function to open the cart (Adds the 'open' class)
-function openCart() {
-    document.getElementById('cart-drawer').classList.add('open');
-    document.getElementById('cart-overlay').classList.add('active');
-    renderCartItems();
-}
-
-// Function to close the cart
-function closeCart() {
-    document.getElementById('cart-drawer').classList.remove('open');
-    document.getElementById('cart-overlay').classList.remove('active');
-}
-
-function addToCart(id) {
-    const product = inventory.find(p => p.id === id);
-    shoppingCart.push(product);
-    document.getElementById('cart-count').innerText = shoppingCart.length;
+    countBadge.innerText = cart.length;
+    container.innerHTML = "";
     
-    // Optional: Open cart automatically when item is added
-    openCart();
-}
-
-function renderCartItems() {
-    const list = document.getElementById('cart-items-list');
-    list.innerHTML = "";
-    
-    if (shoppingCart.length === 0) {
-        list.innerHTML = "<p style='text-align:center;'>Your Savit Innovations cart is empty.</p>";
+    if (cart.length === 0) {
+        emptyMsg.style.display = "block";
+        summary.style.display = "none";
     } else {
-        shoppingCart.forEach((item, index) => {
-            list.innerHTML += `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
-                    <div>
-                        <strong style="display:block;">${item.name}</strong>
-                        <span style="color:#555;">${item.price}</span>
-                    </div>
-                    <button onclick="removeFromCart(${index})" style="color:red; background:none; border:none; cursor:pointer;">Remove</button>
+        emptyMsg.style.display = "none";
+        summary.style.display = "block";
+        
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price;
+            container.innerHTML += `
+                <div class="cart-item-row">
+                    <span><strong>${item.name}</strong></span>
+                    <span>₹${item.price} <button class="remove-btn" onclick="removeFromCart(${index})">| Remove</button></span>
                 </div>
             `;
         });
+        totalSpan.innerText = total;
     }
-    document.getElementById('cart-total-qty').innerText = shoppingCart.length + " items";
 }
 
-function removeFromCart(index) {
-    shoppingCart.splice(index, 1);
-    document.getElementById('cart-count').innerText = shoppingCart.length;
-    renderCartItems();
-}
-
+// WhatsApp Checkout
 function sendOrderToWhatsApp() {
-    if (shoppingCart.length === 0) {
-        alert("Cart is empty!");
-        return;
-    }
+    if (cart.length === 0) return;
+
+    let total = document.getElementById('total-amount').innerText;
+    let message = "Hello Savit Innovations! I want to place an order for:\n\n";
     
-    let message = "New Order from Savit Innovations Website:\n\n";
-    shoppingCart.forEach((item, i) => {
-        message += `${i + 1}. ${item.name} - ${item.price}\n`;
+    cart.forEach((item, i) => {
+        message += `${i + 1}. ${item.name} - ₹${item.price}\n`;
     });
     
-    const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+    message += `\n*Grand Total: ₹${total}*`;
+    message += `\nPlease let me know the delivery timeframe.`;
+
+    const url = `https://wa.me/${myWhatsApp}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 }
