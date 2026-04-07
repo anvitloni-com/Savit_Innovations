@@ -1,83 +1,41 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// Sample Product Data
+const products = [
+    { id: 1, name: "Modern Brass Handle", price: "$12.00", img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=80" },
+    { id: 2, name: "Matte Black Knob", price: "$8.50", img: "https://images.unsplash.com/photo-1594913785162-e67850625324?auto=format&fit=crop&w=500&q=80" },
+    { id: 3, name: "Concealed Wardrobe Handle", price: "$15.00", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80" },
+    { id: 4, name: "Polished Chrome Pull", price: "$10.00", img: "https://images.unsplash.com/photo-1520699049698-acd2fccb8cc8?auto=format&fit=crop&w=500&q=80" }
+];
 
-// SAVE
-function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
+let cartCount = 0;
 
-// CHANGE QTY
-function changeQty(id, change) {
-    let el = document.getElementById(id);
-    let qty = Number(el.innerText);
-
-    qty += change;
-    if (qty < 1) qty = 1;
-
-    el.innerText = qty;
-}
-
-// ADD TO CART (FIXED)
-function addToCart(name, price, qtyId, colorId, sizeId) {
-
-    let qtyEl = document.getElementById(qtyId);
-    let colorEl = document.getElementById(colorId);
-    let sizeEl = document.getElementById(sizeId);
-
-    if (!qtyEl || !colorEl || !sizeEl) {
-        alert("Error: IDs not found");
-        return;
-    }
-
-    let quantity = Number(qtyEl.innerText);
-    let color = colorEl.value;
-    let size = sizeEl.value;
-
-    cart.push({
-        name: name,
-        price: Number(price),
-        quantity: quantity,
-        color: color,
-        size: size
-    });
-
-    saveCart();
-    displayCart();
-}
-
-// DISPLAY CART
-function displayCart() {
-    let list = document.getElementById("cart-items");
-    let total = 0;
-
-    if (!list) return;
-
-    list.innerHTML = "";
-
-    cart.forEach((item, index) => {
-
-        let itemTotal = item.price * item.quantity;
-
-        let li = document.createElement("li");
-
-        li.innerHTML = `
-            ${item.name} (${item.color}, ${item.size}) 
-            - ₹${item.price} × ${item.quantity} = ₹${itemTotal}
-            <button onclick="removeItem(${index})">❌</button>
+function displayProducts() {
+    const grid = document.getElementById('product-display');
+    
+    products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <img src="${product.img}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+            <button class="btn" onclick="addToCart()">Add to Cart</button>
         `;
-
-        list.appendChild(li);
-        total += itemTotal;
+        grid.appendChild(card);
     });
-
-    document.getElementById("total").innerText = "Total: ₹" + total;
 }
 
-// REMOVE
-function removeItem(index) {
-    cart.splice(index, 1);
-    saveCart();
-    displayCart();
+function addToCart() {
+    cartCount++;
+    document.getElementById('cart-count').innerText = cartCount;
+    alert("Item added to cart!");
 }
 
-// LOAD
-window.onload = displayCart;
+// Initialize
+document.addEventListener('DOMContentLoaded', displayProducts);
+
+// Simple Form Submission Handler
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Thank you for contacting Savit Innovations! We will get back to you soon.");
+    this.reset();
+});
