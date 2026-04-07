@@ -187,3 +187,84 @@ footer {
     padding: 10px 0;
     font-size: 14px;
 }
+/* Cart Count Badge */
+#cart-count {
+    background: #febd69; /* Amazon Gold */
+    color: #232f3e;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Side Drawer Styling */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Hidden by default */
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transition: 0.4s ease; /* Slide animation */
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-drawer.open {
+    right: 0; /* Slide in */
+}
+
+/* Dark background behind the drawer */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1999;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.drawer-header {
+    padding: 20px;
+    background: #232f3e;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.close-drawer { cursor: pointer; font-size: 1.5rem; }
+
+.drawer-body {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.drawer-footer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
