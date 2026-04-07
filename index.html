@@ -82,16 +82,37 @@
 </div>
 
     <script src="script.js"></script>
-    <nav class="navbar">
+   <nav class="navbar">
     <div class="logo">SAVIT <span>INNOVATIONS</span></div>
     <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#products">Products</a></li>
     </ul>
-    <div class="cart-icon" onclick="openCart()" style="cursor: pointer; position: relative;">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -10px; right: -10px;">0</span>
+    <div class="cart-container" onclick="openCart()" style="cursor: pointer; position: relative; padding: 10px;">
+        <i class="fas fa-shopping-cart" style="font-size: 1.5rem;"></i>
+        <span id="cart-count">0</span>
     </div>
+</nav>
+
+<div id="cart-drawer" class="cart-drawer">
+    <div class="drawer-header">
+        <span>Shopping Cart</span>
+        <span class="close-drawer" onclick="closeCart()">&times;</span>
+    </div>
+    <div id="cart-items-list" class="drawer-body">
+        </div>
+    <div class="drawer-footer">
+        <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="cart-total-qty">0 items</span>
+        </div>
+        <button class="whatsapp-btn" onclick="sendOrderToWhatsApp()">
+            Proceed to Checkout (WhatsApp)
+        </button>
+    </div>
+</div>
+
+<div id="cart-overlay" class="overlay" onclick="closeCart()"></div>
 </nav>
 
 <div id="cart-modal" class="modal" style="display:none;">
