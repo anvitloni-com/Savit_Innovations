@@ -1,199 +1,817 @@
-:root {
-    --amazon-navy: #131921;
-    --amazon-orange: #febd69;
-    --amazon-btn: #ffd814;
-    --text-color: #333;
+const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
 }
 
-body { font-family: Arial, sans-serif; margin: 0; color: var(--text-color); }
-
-/* Navbar & Controls */
-.navbar { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--amazon-navy); color: white; position: sticky; top: 0; z-index: 1000; }
-.logo { font-size: 1.5rem; font-weight: bold; color: var(--amazon-orange); }
-.cart-icon { cursor: pointer; position: relative; font-size: 1.2rem; }
-#cart-count { background: var(--amazon-orange); color: black; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -10px; right: -15px; }
-
-.controls { padding: 20px 5%; background: #f3f3f3; text-align: center; }
-.search-container { display: flex; max-width: 600px; margin: 0 auto 15px; }
-#search-input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
-.search-btn { background: var(--amazon-orange); border: 1px solid #ccc; padding: 0 15px; border-radius: 0 4px 4px 0; }
-
-.filter-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.filter-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #ccc; background: white; cursor: pointer; }
-.filter-btn.active { background: var(--amazon-navy); color: white; }
-/* Hero */
-.hero {
-    height: 400px;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
 }
 
-.btn {
-    background: var(--amazon-orange);
-    padding: 10px 20px;
-    text-decoration: none;
-    color: var(--amazon-navy);
-    border-radius: 5px;
-    font-weight: bold;
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
 }
 
-/* Product Cards */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px 5%; }
-.product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
-.product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
-.price { color: #B12704; font-size: 1.2rem; font-weight: bold; }
-
-/* Selectors & Quantity */
-.selectors { text-align: left; margin: 10px 0; }
-.select-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-.select-group select { width: 60%; padding: 5px; }
-
-.qty-container { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px 0; }
-.qty-btn { background: #e7e9ec; border: 1px solid #adb1b8; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-.qty-input { width: 50px; text-align: center; padding: 5px; border: 1px solid #adb1b8; border-radius: 4px; }
-
-.add-btn { background: var(--amazon-btn); border: 1px solid #fcd200; width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
-/* Cart Sidebar */
-.cart-sidebar { position: fixed; right: -400px; top: 0; width: 320px; height: 100%; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: 0.3s; z-index: 2000; padding: 20px; overflow-y: auto; }
-.cart-sidebar.active { right: 0; }
-.cart-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-.remove-btn { color: #cc0c39; border: none; background: none; cursor: pointer; }
-.checkout-btn { background: #ffa41c; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }:root {
-    --amazon-navy: #131921;
-    --amazon-orange: #febd69;
-    --amazon-btn: #ffd814;
-    --text-color: #333;
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
 }
 
-body { font-family: Arial, sans-serif; margin: 0; color: var(--text-color); }
-
-/* Navbar & Controls */
-.navbar { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--amazon-navy); color: white; position: sticky; top: 0; z-index: 1000; }
-.logo { font-size: 1.5rem; font-weight: bold; color: var(--amazon-orange); }
-.cart-icon { cursor: pointer; position: relative; font-size: 1.2rem; }
-#cart-count { background: var(--amazon-orange); color: black; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -10px; right: -15px; }
-
-.controls { padding: 20px 5%; background: #f3f3f3; text-align: center; }
-.search-container { display: flex; max-width: 600px; margin: 0 auto 15px; }
-#search-input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
-.search-btn { background: var(--amazon-orange); border: 1px solid #ccc; padding: 0 15px; border-radius: 0 4px 4px 0; }
-
-.filter-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.filter-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #ccc; background: white; cursor: pointer; }
-.filter-btn.active { background: var(--amazon-navy); color: white; }
-/* Hero */
-.hero {
-    height: 400px;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
 }
 
-.btn {
-    background: var(--amazon-orange);
-    padding: 10px 20px;
-    text-decoration: none;
-    color: var(--amazon-navy);
-    border-radius: 5px;
-    font-weight: bold;
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
 }
 
-/* Product Cards */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px 5%; }
-.product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
-.product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
-.price { color: #B12704; font-size: 1.2rem; font-weight: bold; }
-
-/* Selectors & Quantity */
-.selectors { text-align: left; margin: 10px 0; }
-.select-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-.select-group select { width: 60%; padding: 5px; }
-
-.qty-container { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px 0; }
-.qty-btn { background: #e7e9ec; border: 1px solid #adb1b8; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-.qty-input { width: 50px; text-align: center; padding: 5px; border: 1px solid #adb1b8; border-radius: 4px; }
-
-.add-btn { background: var(--amazon-btn); border: 1px solid #fcd200; width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
-/* Cart Sidebar */
-.cart-sidebar { position: fixed; right: -400px; top: 0; width: 320px; height: 100%; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: 0.3s; z-index: 2000; padding: 20px; overflow-y: auto; }
-.cart-sidebar.active { right: 0; }
-.cart-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-.remove-btn { color: #cc0c39; border: none; background: none; cursor: pointer; }
-.checkout-btn { background: #ffa41c; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }:root {
-    --amazon-navy: #131921;
-    --amazon-orange: #febd69;
-    --amazon-btn: #ffd814;
-    --text-color: #333;
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
 }
 
-body { font-family: Arial, sans-serif; margin: 0; color: var(--text-color); }
-
-/* Navbar & Controls */
-.navbar { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--amazon-navy); color: white; position: sticky; top: 0; z-index: 1000; }
-.logo { font-size: 1.5rem; font-weight: bold; color: var(--amazon-orange); }
-.cart-icon { cursor: pointer; position: relative; font-size: 1.2rem; }
-#cart-count { background: var(--amazon-orange); color: black; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -10px; right: -15px; }
-
-.controls { padding: 20px 5%; background: #f3f3f3; text-align: center; }
-.search-container { display: flex; max-width: 600px; margin: 0 auto 15px; }
-#search-input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
-.search-btn { background: var(--amazon-orange); border: 1px solid #ccc; padding: 0 15px; border-radius: 0 4px 4px 0; }
-
-.filter-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.filter-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #ccc; background: white; cursor: pointer; }
-.filter-btn.active { background: var(--amazon-navy); color: white; }
-/* Hero */
-.hero {
-    height: 400px;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
 }
 
-.btn {
-    background: var(--amazon-orange);
-    padding: 10px 20px;
-    text-decoration: none;
-    color: var(--amazon-navy);
-    border-radius: 5px;
-    font-weight: bold;
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
 }
 
-/* Product Cards */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px 5%; }
-.product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
-.product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
-.price { color: #B12704; font-size: 1.2rem; font-weight: bold; }
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
 
-/* Selectors & Quantity */
-.selectors { text-align: left; margin: 10px 0; }
-.select-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-.select-group select { width: 60%; padding: 5px; }
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
 
-.qty-container { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15px 0; }
-.qty-btn { background: #e7e9ec; border: 1px solid #adb1b8; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-.qty-input { width: 50px; text-align: center; padding: 5px; border: 1px solid #adb1b8; border-radius: 4px; }
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
 
-.add-btn { background: var(--amazon-btn); border: 1px solid #fcd200; width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
 
-/* Cart Sidebar */
-.cart-sidebar { position: fixed; right: -400px; top: 0; width: 320px; height: 100%; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: 0.3s; z-index: 2000; padding: 20px; overflow-y: auto; }
-.cart-sidebar.active { right: 0; }
-.cart-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
-.remove-btn { color: #cc0c39; border: none; background: none; cursor: pointer; }
-.checkout-btn { background: #ffa41c; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();const products = [
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+];
+
+let currentCategory = 'all';
+let cart = [];
+
+function initProducts(filterList = products) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = '';
+    filterList.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${p.img}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price}</p>
+                <div class="selectors">
+                    <div class="select-group"><label>Color:</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
+                    <div class="select-group"><label>Size:</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                </div>
+                <div class="qty-container">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, -1)">-</button>
+                    <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
+                    <button class="qty-btn" onclick="updateQtyUI(${p.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+    });
+}
+
+function updateQtyUI(id, change) {
+    const input = document.getElementById(`qty-${id}`);
+    let val = parseInt(input.value) + change;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const color = document.getElementById(`color-${id}`).value;
+    const size = document.getElementById(`size-${id}`).value;
+    const qty = parseInt(document.getElementById(`qty-${id}`).value);
+
+    const item = { ...product, chosenColor: color, chosenSize: size, quantity: qty, subtotal: product.price * qty };
+    cart.push(item);
+    updateCart();
+    toggleCart(); // Show cart when item added
+}
+
+function updateCart() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const itemsDiv = document.getElementById('cart-items');
+    let total = 0;
+    itemsDiv.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        total += item.subtotal;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>${item.chosenColor} | ${item.chosenSize} | Qty: ${item.quantity}</small><br>
+                    <span>₹${item.subtotal}</span>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>`;
+    });
+    document.getElementById('cart-total').innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => (p.name.toLowerCase().includes(term) || p.category.includes(term)) && (currentCategory === 'all' || p.category === currentCategory));
+    initProducts(filtered);
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let msg = "*Order from Savit Innovations*%0a%0a";
+    cart.forEach((item, i) => {
+        msg += `*${i+1}. ${item.name}*%0a- Color: ${item.chosenColor}%0a- Size: ${item.chosenSize}%0a- Qty: ${item.quantity}%0a- Price: ₹${item.subtotal}%0a%0a`;
+    });
+    msg += `*Grand Total: ₹${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/919980056119?text=${msg}`, '_blank');
+}
+
+initProducts();
