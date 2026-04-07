@@ -19,31 +19,7 @@ function changeQty(button, amount) {
 }
 
 // Add to cart with options + quantity
-function addToCartWithOptions(button, name, price) {
-    let product = button.parentElement;
-
-    let color = product.querySelector(".color").value;
-    let size = product.querySelector(".size").value;
-    let qty = parseInt(product.querySelector(".qty").innerText);
-
-    if (!color || !size) {
-        alert("Please select color and size");
-        return;
-    }
-
-    cart.push({
-        name: name,
-        color: color,
-        size: size,
-        price: price,
-        qty: qty
-    });
-
-    saveCart();
-    displayCart();
-}
-
-// Display cart
+anvitloni-com.github.io/savit-innovations/
 function displayCart() {
     let list = document.getElementById("cart-items");
     let total = 0;
@@ -51,15 +27,18 @@ function displayCart() {
     list.innerHTML = "";
 
     cart.forEach((item, index) => {
+        let itemTotal = item.price * item.quantity;
+
         let li = document.createElement("li");
 
         li.innerHTML = `
-            ${item.name} - ₹${item.price}
+            ${item.name} (${item.color}, ${item.size}) 
+            - ₹${item.price} × ${item.quantity} = ₹${itemTotal}
             <button onclick="removeItem(${index})">❌</button>
         `;
 
         list.appendChild(li);
-        total += item.price;
+        total += itemTotal;
     });
 
     document.getElementById("total").innerText = "Total: ₹" + total;
