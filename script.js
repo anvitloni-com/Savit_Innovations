@@ -1,7 +1,7 @@
 const products = [
-    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm"] },
-    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["25mm", "30mm"] },
-    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] }
+    { id: 1, name: "Premium Brass Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "160mm", "224mm", "288mm"] },
+    { id: 2, name: "Modern Black Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60", colors: ["Matte Black", "Grey"], sizes: ["96mm", "160mm", "224mm", "288mm"] },
+    { id: 3, name: "Concealed Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60", colors: ["Satin Nickel", "Chrome"], sizes: ["96mm", "160mm", "224mm", "288mm"] }
 ];
 
 let currentCategory = 'all';
