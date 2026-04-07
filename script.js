@@ -5,7 +5,7 @@ const products = [
         price: 450, 
         img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?auto=format&fit=crop&w=500&q=60",
         colors: ["Gold", "Silver", "Antique", "Black"],
-        sizes: ["96mm", "128mm", "160mm", "192mm"]
+        sizes: ["96mm", "160mm", "224mm", "288mm"]
     },
     { 
         id: 2, 
@@ -13,7 +13,7 @@ const products = [
         price: 120, 
         img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=500&q=60",
         colors: ["Matte Black", "Glossy Black", "Grey", "White"],
-        sizes: ["20mm", "25mm", "30mm", "35mm"]
+        sizes: ["96mm", "160mm", "224mm", "288mm"]
     },
     { 
         id: 3, 
@@ -21,7 +21,7 @@ const products = [
         price: 850, 
         img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=60",
         colors: ["Satin Nickel", "Chrome", "Bronze", "Graphite"],
-        sizes: ["100mm", "150mm", "200mm", "250mm"]
+        sizes: ["96mm", "160mm", "224mm", "288mm"]
     },
     { 
         id: 4, 
@@ -29,7 +29,7 @@ const products = [
         price: 300, 
         img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=60",
         colors: ["Rose Gold", "Polished Gold", "Champagne", "Brushed Brass"],
-        sizes: ["Small", "Medium", "Large", "XL"]
+        sizes: ["96mm", "160mm", "224mm", "288mm"]
     }
 ];
 
