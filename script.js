@@ -79,3 +79,5 @@ function checkout() {
 
 // LOAD ON START
 window.onload = displayCart;
+<script src="script.js"></script>
+</body>
