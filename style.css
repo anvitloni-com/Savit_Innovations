@@ -1,56 +1,19 @@
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial;
+    margin: 0;
+    background: #f4f6f8;
 }
+
 header {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
     background: #2c3e50;
     color: white;
-}
-
-nav a {
-    margin-left: 20px;
-    color: white;
-    text-decoration: none;
-}
-
-.hero {
     text-align: center;
-    padding: 40px;
-    background: #27ae60;
-    color: white;
-}
-
-.controls {
-    text-align: center;
-    margin: 20px;
-}
-
-.controls input {
-    padding: 10px;
-    width: 200px;
-}
-
-.controls button {
-    padding: 10px;
-    margin: 5px;
-}
-.controls button {
-    border-radius: 20px;
-    border: none;
-    background: #2c3e50;
-    color: white;
-    cursor: pointer;
-}
-
-.controls button:hover {
-    background: #27ae60;
+    padding: 15px;
 }
 
 .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     padding: 20px;
     gap: 20px;
 }
@@ -58,184 +21,30 @@ nav a {
 .product {
     background: white;
     padding: 15px;
-    text-align: center;
-}
-.badge {
-    position: absolute;
-    background: red;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-}
-
-.product img {
-    width: 100%;
-    height: 150px;
-}
-.product img {
-    transition: 0.3s;
-}
-
-.product img:hover {
-    transform: scale(1.1);
-}
-.quantity {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 0;
-}
-
-.quantity button {
-    padding: 5px 10px;
-    margin: 0 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.quantity .qty {
-    font-size: 16px;
-    min-width: 20px;
+    border-radius: 10px;
     text-align: center;
 }
 
 .product button {
+    margin-top: 10px;
+    padding: 10px;
     background: #25D366;
     color: white;
-    padding: 10px;
     border: none;
+    border-radius: 5px;
 }
 
 .cart {
     background: white;
     margin: 20px;
     padding: 20px;
+    border-radius: 10px;
 }
 
-footer {
-    text-align: center;
-    background: #2c3e50;
-    color: white;
-    padding: 20px;
-}
-/* Mobile Responsive Design */
-@media (max-width: 600px) {
-
-    /* Header */
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    /* Navbar links */
-    nav a {
-        display: block;
-        margin: 10px 0;
-    }
-
-    /* Hero text */
-    .hero h1 {
-        font-size: 24px;
-    }
-
-    /* Products layout */
-    .products {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    /* Product cards */
-    .product {
-        margin: 10px;
-    }
-
-    /* Search box */
-    .controls input {
-        width: 90%;
-    }
-
-    /* Cart section */
-    .cart {
-        margin: 10px;
-        padding: 15px;
-    }
-}
-/* Smooth scroll */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Better font + background */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(to right, #eef2f3, #dfe9f3);
-}
-
-/* Navbar glass effect */
-header {
-    backdrop-filter: blur(10px);
-    background: rgba(44, 62, 80, 0.9);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-/* Hero upgrade */
-.hero {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    animation: fadeIn 1s ease-in;
-}
-
-/* Product card premium */
-.product {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-/* Hover animation */
-.product:hover {
-    transform: translateY(-8px) scale(1.02);
-}
-.product select {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 6px;
-}
-/* Button upgrade */
-.product button {
-    background: linear-gradient(45deg, #25D366, #1ebe5d);
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.product button:hover {
-    transform: scale(1.05);
-}
-
-/* Cart styling */
-.cart {
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* Fade animation */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
 .cart button {
     margin-left: 10px;
     background: red;
     color: white;
     border: none;
-    padding: 5px 8px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.cart button:hover {
-    background: darkred;
+    padding: 5px;
 }
