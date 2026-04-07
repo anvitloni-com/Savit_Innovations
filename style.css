@@ -114,3 +114,47 @@ body {
     font-weight: bold;
     margin-top: 20px;
 }
+/* Cart Item Styling */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.cart-item-price {
+    color: #555;
+    font-size: 0.85rem;
+}
+
+/* Remove Button Styles */
+.remove-btn {
+    background: none;
+    border: none;
+    color: #cc0c39; /* Amazon's error/remove red */
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.remove-btn:hover {
+    color: #ff0000;
+}
+
+/* Checkout Button Enhancement */
+.checkout-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
