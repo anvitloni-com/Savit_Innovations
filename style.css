@@ -68,3 +68,87 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fff; colo
 .checkout-btn { background: #ffa41c; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 
 footer { background: var(--amazon-navy); color: #888; text-align: center; padding: 40px 0; margin-top: 40px; }
+/* ... Keep all your previous CSS styles here ... */
+
+/* --- MOBILE OPTIMIZATION (Add this at the very bottom) --- */
+
+@media (max-width: 768px) {
+    /* Navbar: Stack or simplify for small screens */
+    .navbar {
+        padding: 10px 4%;
+    }
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    /* Hero: Reduce text size so it doesn't overflow */
+    .hero {
+        height: 40vh;
+    }
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Trust Bar: Scroll horizontally or stack */
+    .trust-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 15px;
+    }
+    .feature {
+        font-size: 0.8rem;
+        justify-content: center;
+    }
+
+    /* Controls: Make buttons full width for thumbs */
+    .search-container {
+        width: 100%;
+    }
+    .filter-options {
+        gap: 5px;
+    }
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Product Grid: Show 1 or 2 products per row */
+    .product-grid {
+        grid-template-columns: 1fr; /* Single column is best for hardware detail */
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .product-card img {
+        height: 200px; /* Shorter images for mobile scrolling */
+    }
+
+    /* Cart Sidebar: Make it full screen on mobile */
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+    
+    /* Buttons: Make them bigger for easy tapping */
+    .add-btn, .checkout-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .qty-btn {
+        width: 45px; /* Larger tap targets */
+        height: 45px;
+    }
+
+    /* Floating WhatsApp: Position it safely */
+    .whatsapp-float {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
