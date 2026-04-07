@@ -23,6 +23,24 @@
             </div>
         </nav>
     </header>
+    <section class="controls">
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for handles, knobs, or colors..." onkeyup="filterProducts()">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="filter-options">
+        <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
+        <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
+        <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
+        <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed Handles</button>
+    </div>
+</section>
+
+<section id="products" class="product-container">
+    <div class="product-grid" id="product-grid">
+        </div>
+</section>
 
     <section class="hero">
         <div class="hero-content">
