@@ -4,7 +4,7 @@ const products = [
         id: 1, 
         name: "Premium Cabinet Handle", 
         category: "handels", 
-        img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600",
+        img: "C:\Agrawal Hardware\Individual Images\AH 001 CP SATIN (1)",
         // Define available options for the dropdowns
         colorOptions: ["Silver", "Gold", "Antique Brass"],
         sizeOptions: ["96mm", "128mm"],
