@@ -1,6 +1,7 @@
 const products = [
     { 
-        id: "AH-001",  
+        id: "AH-001",
+        name: "Architectural Handle AH-001",
         category: "handels", 
         img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600",
         colorOptions: ["RG-BS", "SATIN ROSE-GOLD", "BLACK-SATIN"],
@@ -17,7 +18,8 @@ const products = [
         ]
     },
     { 
-        id: "AH-002", 
+        id: "AH-002",
+        name: "Architectural Handle AH-002",
         category: "handels", 
         img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600",
         colorOptions: ["RG-BS", "BLACK-SATIN"],
