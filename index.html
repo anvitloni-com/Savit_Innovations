@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savit Innovations | Luxury Hardware, Handles & Knobs</title>
-
-    <meta name="description" content="Shop premium handles, knobs, and concealed hardware at Savit Innovations. Quality fittings for modern interiors in India. Order via WhatsApp.">
-
-    <meta name="keywords" content="Hardware, Handles, Knobs, Savit Innovations, Interior Fittings">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Savit Innovations | Premium Hardware</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-   </head>
+</head>
 <body>
 
-    <header>
-        <nav class="navbar">
-            <div class="logo">Savit Innovations</div>
-            <div class="nav-links">
-                <a href="#products">Products</a>
-                <div class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count">0</span>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <nav class="navbar">
+        <div class="logo">Savit Innovations</div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
 
     <section class="hero">
         <div class="hero-content">
             <h1>Premium Hardware for Modern Living</h1>
-            <p>Discover our exclusive collection of Handles, Knobs, and Concealed Fittings.</p>
-            <a href="#products" class="hero-btn">Explore Products</a>
+            <p>Exclusive collection of AH-Series Handles and Knobs.</p>
+            <a href="#products" class="hero-btn">Shop Collection</a>
         </div>
     </section>
 
@@ -44,47 +34,30 @@
 
     <section class="controls">
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search for handles, knobs, or colors..." onkeyup="filterProducts()">
-            <button class="search-btn"><i class="fas fa-search"></i></button>
-        </div>
-
-        <div class="filter-options">
-            <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
-            <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
-            <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
-            <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed</button>
+            <input type="text" id="search-input" placeholder="Search AH-001, AH-002..." onkeyup="filterProducts()">
         </div>
     </section>
 
     <main class="product-container" id="products">
-        <div class="product-grid" id="product-grid">
-            </div>
+        <div class="product-grid" id="product-grid"></div>
     </main>
 
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Your Shopping Cart</h3>
+            <h3>Your Cart</h3>
             <span class="close-cart" onclick="toggleCart()">&times;</span>
         </div>
         <div id="cart-items"></div>
         <div class="cart-footer">
-            <div class="total-row">
-                <span>Grand Total:</span>
-                <span>₹<span id="cart-total">0</span></span>
-            </div>
-            <button class="checkout-btn" onclick="checkoutWhatsApp()">Confirm Order on WhatsApp</button>
+            <div class="total-row"><span>Total:</span> ₹<span id="cart-total">0</span></div>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">Confirm via WhatsApp</button>
         </div>
     </div>
 
     <a href="https://wa.me/919980056119" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
-        <span>Need Help?</span>
+        <span>Chat Now</span>
     </a>
-
-    <footer>
-        <p>&copy; 2026 Savit Innovations | MIT License</p>
-        <p>Expertly Crafted Hardware Solutions</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
