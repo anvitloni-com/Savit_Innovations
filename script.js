@@ -1,30 +1,36 @@
-// 1. Updated Product Data with Color-Specific Pricing
+// 1. Updated Data: Each product has "variants" for every color/size combo
 const products = [
     { 
         id: 1, 
         name: "Premium Cabinet Handle", 
         category: "handels", 
-        img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600", 
-        // Different prices for different colors
-        colors: [
-            { name: "Silver", price: 450 },
-            { name: "Gold", price: 550 },
-            { name: "Antique Brass", price: 600 },
-            { name: "Matte Black", price: 480 }
-        ], 
-        sizes: ["96mm", "128mm", "160mm"] 
+        img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600",
+        // Define available options for the dropdowns
+        colorOptions: ["Silver", "Gold", "Antique Brass"],
+        sizeOptions: ["96mm", "128mm"],
+        // Specific pricing for every possible combination
+        variants: [
+            { color: "Silver", size: "96mm", price: 450 },
+            { color: "Silver", size: "128mm", price: 500 },
+            { color: "Gold", size: "96mm", price: 550 },
+            { color: "Gold", size: "128mm", price: 650 },
+            { color: "Antique Brass", size: "96mm", price: 600 },
+            { color: "Antique Brass", size: "128mm", price: 700 }
+        ]
     },
     { 
         id: 2, 
         name: "Modern Designer Knob", 
         category: "knobs", 
-        img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600", 
-        colors: [
-            { name: "Chrome", price: 120 },
-            { name: "Rose Gold", price: 180 },
-            { name: "Black", price: 140 }
-        ], 
-        sizes: ["25mm", "30mm"] 
+        img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600",
+        colorOptions: ["Chrome", "Black"],
+        sizeOptions: ["25mm", "30mm"],
+        variants: [
+            { color: "Chrome", size: "25mm", price: 120 },
+            { color: "Chrome", size: "30mm", price: 150 },
+            { color: "Black", size: "25mm", price: 140 },
+            { color: "Black", size: "30mm", price: 170 }
+        ]
     }
 ];
 
@@ -37,8 +43,8 @@ function initProducts(list = products) {
     grid.innerHTML = '';
     
     list.forEach(p => {
-        // Default to the first color's price
-        const defaultPrice = p.colors[0].price;
+        // Default starting price from the first variant
+        const defaultPrice = p.variants[0].price;
 
         grid.innerHTML += `
             <div class="product-card">
@@ -49,13 +55,15 @@ function initProducts(list = products) {
                 <div class="selectors">
                     <div class="select-group">
                         <label>Color</label>
-                        <select id="color-${p.id}" onchange="updateDisplayedPrice(${p.id})">
-                            ${p.colors.map(c => `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`).join('')}
+                        <select id="color-${p.id}" onchange="updateVariantPrice(${p.id})">
+                            ${p.colorOptions.map(c => `<option value="${c}">${c}</option>`).join('')}
                         </select>
                     </div>
                     <div class="select-group">
                         <label>Size</label>
-                        <select id="size-${p.id}">${p.sizes.map(s => `<option value="${s}">${s}</option>`).join('')}</select>
+                        <select id="size-${p.id}" onchange="updateVariantPrice(${p.id})">
+                            ${p.sizeOptions.map(s => `<option value="${s}">${s}</option>`).join('')}
+                        </select>
                     </div>
                 </div>
 
@@ -70,13 +78,18 @@ function initProducts(list = products) {
     });
 }
 
-// 3. NEW FUNCTION: Updates price on screen when user clicks a different color
-function updateDisplayedPrice(productId) {
-    const colorSelect = document.getElementById(`color-${productId}`);
-    const selectedOption = colorSelect.options[colorSelect.selectedIndex];
-    const newPrice = selectedOption.getAttribute('data-price');
+// 3. Update Price based on BOTH Color and Size selection
+function updateVariantPrice(productId) {
+    const p = products.find(x => x.id === productId);
+    const selectedColor = document.getElementById(`color-${productId}`).value;
+    const selectedSize = document.getElementById(`size-${productId}`).value;
     
-    document.getElementById(`display-price-${productId}`).innerText = newPrice;
+    // Find the variant that matches both chosen values
+    const variant = p.variants.find(v => v.color === selectedColor && v.size === selectedSize);
+    
+    if (variant) {
+        document.getElementById(`display-price-${productId}`).innerText = variant.price;
+    }
 }
 
 function adjustQty(id, change) {
@@ -85,29 +98,29 @@ function adjustQty(id, change) {
     if(val >= 1) input.value = val;
 }
 
-// 4. Updated Add to Cart (Captures the specific color's price)
+// 4. Add to Cart captures the specific variant's price
 function addToCart(id) {
     const p = products.find(x => x.id === id);
     const qty = parseInt(document.getElementById(`qty-${id}`).value);
-    const colorSelect = document.getElementById(`color-${id}`);
-    const colorName = colorSelect.value;
-    const colorPrice = parseInt(colorSelect.options[colorSelect.selectedIndex].getAttribute('data-price'));
+    const color = document.getElementById(`color-${id}`).value;
     const size = document.getElementById(`size-${id}`).value;
+    
+    // Get the price of the specific selected variant
+    const variant = p.variants.find(v => v.color === color && v.size === size);
+    const finalPrice = variant ? variant.price : 0;
     
     cart.push({ 
         name: p.name, 
         qty, 
-        color: colorName, 
+        color, 
         size, 
-        price: colorPrice,
-        subtotal: colorPrice * qty 
+        price: finalPrice,
+        subtotal: finalPrice * qty 
     });
     
     updateCartUI();
     if(!document.getElementById('cart-sidebar').classList.contains('active')) toggleCart();
 }
-
-// --- KEEP ALL OTHER FUNCTIONS (updateCartUI, toggleCart, filterProducts, etc.) THE SAME AS BEFORE ---
 
 function updateCartUI() {
     document.getElementById('cart-count').innerText = cart.length;
