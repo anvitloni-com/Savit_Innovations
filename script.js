@@ -1,34 +1,82 @@
+// 1. Updated Product Data with Color-Specific Pricing
 const products = [
-    { id: 1, name: "Solid Brass Pull Handle", category: "handels", price: 450, img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600", colors: ["Gold", "Silver", "Antique"], sizes: ["96mm", "128mm", "160mm"] },
-    { id: 2, name: "Modern Round Knob", category: "knobs", price: 120, img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600", colors: ["Matte Black", "Brushed Silver"], sizes: ["25mm", "30mm"] },
-    { id: 3, name: "Concealed Wardrobe Handle", category: "concealed", price: 850, img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600", colors: ["Satin Nickel", "Chrome"], sizes: ["150mm", "200mm"] },
-    { id: 4, name: "Designer Main Door Handle", category: "handels", price: 1250, img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600", colors: ["Antique Gold", "Rose Gold"], sizes: ["250mm", "300mm"] }
+    { 
+        id: 1, 
+        name: "Premium Cabinet Handle", 
+        category: "handels", 
+        img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600", 
+        // Different prices for different colors
+        colors: [
+            { name: "Silver", price: 450 },
+            { name: "Gold", price: 550 },
+            { name: "Antique Brass", price: 600 },
+            { name: "Matte Black", price: 480 }
+        ], 
+        sizes: ["96mm", "128mm", "160mm"] 
+    },
+    { 
+        id: 2, 
+        name: "Modern Designer Knob", 
+        category: "knobs", 
+        img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600", 
+        colors: [
+            { name: "Chrome", price: 120 },
+            { name: "Rose Gold", price: 180 },
+            { name: "Black", price: 140 }
+        ], 
+        sizes: ["25mm", "30mm"] 
+    }
 ];
 
 let cart = [];
 let currentCategory = 'all';
 
+// 2. Initialize Products
 function initProducts(list = products) {
     const grid = document.getElementById('product-grid');
     grid.innerHTML = '';
+    
     list.forEach(p => {
+        // Default to the first color's price
+        const defaultPrice = p.colors[0].price;
+
         grid.innerHTML += `
             <div class="product-card">
                 <img src="${p.img}">
                 <h3>${p.name}</h3>
-                <p class="price">₹${p.price}</p>
+                <p class="price">₹<span id="display-price-${p.id}">${defaultPrice}</span></p>
+                
                 <div class="selectors">
-                    <div class="select-group"><label>Color</label><select id="color-${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join('')}</select></div>
-                    <div class="select-group"><label>Size</label><select id="size-${p.id}">${p.sizes.map(s=>`<option>${s}</option>`).join('')}</select></div>
+                    <div class="select-group">
+                        <label>Color</label>
+                        <select id="color-${p.id}" onchange="updateDisplayedPrice(${p.id})">
+                            ${p.colors.map(c => `<option value="${c.name}" data-price="${c.price}">${c.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="select-group">
+                        <label>Size</label>
+                        <select id="size-${p.id}">${p.sizes.map(s => `<option value="${s}">${s}</option>`).join('')}</select>
+                    </div>
                 </div>
+
                 <div class="qty-container">
                     <button class="qty-btn" onclick="adjustQty(${p.id}, -1)">-</button>
                     <input type="number" id="qty-${p.id}" class="qty-input" value="1" min="1">
                     <button class="qty-btn" onclick="adjustQty(${p.id}, 1)">+</button>
                 </div>
+
                 <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
             </div>`;
     });
+}
+
+// 3. NEW FUNCTION: Updates price on screen when user clicks a different color
+function updateDisplayedPrice(productId) {
+    const colorSelect = document.getElementById(`color-${productId}`);
+    const selectedOption = colorSelect.options[colorSelect.selectedIndex];
+    const newPrice = selectedOption.getAttribute('data-price');
+    
+    document.getElementById(`display-price-${productId}`).innerText = newPrice;
 }
 
 function adjustQty(id, change) {
@@ -37,16 +85,29 @@ function adjustQty(id, change) {
     if(val >= 1) input.value = val;
 }
 
+// 4. Updated Add to Cart (Captures the specific color's price)
 function addToCart(id) {
     const p = products.find(x => x.id === id);
     const qty = parseInt(document.getElementById(`qty-${id}`).value);
-    const color = document.getElementById(`color-${id}`).value;
+    const colorSelect = document.getElementById(`color-${id}`);
+    const colorName = colorSelect.value;
+    const colorPrice = parseInt(colorSelect.options[colorSelect.selectedIndex].getAttribute('data-price'));
     const size = document.getElementById(`size-${id}`).value;
     
-    cart.push({ ...p, qty, color, size, subtotal: p.price * qty });
+    cart.push({ 
+        name: p.name, 
+        qty, 
+        color: colorName, 
+        size, 
+        price: colorPrice,
+        subtotal: colorPrice * qty 
+    });
+    
     updateCartUI();
     if(!document.getElementById('cart-sidebar').classList.contains('active')) toggleCart();
 }
+
+// --- KEEP ALL OTHER FUNCTIONS (updateCartUI, toggleCart, filterProducts, etc.) THE SAME AS BEFORE ---
 
 function updateCartUI() {
     document.getElementById('cart-count').innerText = cart.length;
