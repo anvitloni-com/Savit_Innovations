@@ -2,34 +2,70 @@
 const products = [
     { 
         id: 1, 
-        name: "Premium Cabinet Handle", 
+        name: "AH-001", 
         category: "handels", 
         img: "C:\Agrawal Hardware\Individual Images\AH 001 CP SATIN (1)",
         // Define available options for the dropdowns
-        colorOptions: ["Silver", "Gold", "Antique Brass"],
-        sizeOptions: ["96mm", "128mm"],
+        colorOptions: ["RG-BS", "CP-SATIN"],
+        sizeOptions: ["96mm", "160mm", "224mm", "288mm"],
         // Specific pricing for every possible combination
         variants: [
-            { color: "Silver", size: "96mm", price: 450 },
-            { color: "Silver", size: "128mm", price: 500 },
-            { color: "Gold", size: "96mm", price: 550 },
-            { color: "Gold", size: "128mm", price: 650 },
-            { color: "Antique Brass", size: "96mm", price: 600 },
-            { color: "Antique Brass", size: "128mm", price: 700 }
+            { color: "RG-BS", size: "96mm", price: 389 },
+            { color: "RG-BS", size: "160mm", price: 613 },
+            { color: "RG-BS", size: "224mm", price: 856 },
+            { color: "RG-BS", size: "288mm", price: 1026 },
+            { color: "CP-SATIN", size: "96mm", price: 389 },
+            { color: "CP-SATIN", size: "160mm", price: 613 }
+            { color: "CP-SATIN", size: "224mm", price: 856 },
+            { color: "CP-SATIN", size: "288mm", price: 1026 }
         ]
     },
     { 
         id: 2, 
-        name: "Modern Designer Knob", 
-        category: "knobs", 
+        name: "AH-006", 
+        category: "handels", 
         img: "C:\Agrawal Hardware\Individual Images\AH 001 CP SATIN (1)",
-        colorOptions: ["Chrome", "Black"],
-        sizeOptions: ["25mm", "30mm"],
+        colorOptions: ["CP", "SATIN", "ROSE-GOLD", "BLACK-SATIN"],
+        sizeOptions: ["96mm", "160mm", "224mm", "288mm"],
         variants: [
-            { color: "Chrome", size: "25mm", price: 120 },
-            { color: "Chrome", size: "30mm", price: 150 },
-            { color: "Black", size: "25mm", price: 140 },
-            { color: "Black", size: "30mm", price: 170 }
+            { color: "CP", size: "96mm", price: 267 },
+            { color: "CP", size: "160mm", price: 395 },
+            { color: "CP", size: "224mm", price: 512 },
+            { color: "CP", size: "288mm", price: 624 }
+            { color: "SATIN", size: "96mm", price: 267 },
+            { color: "SATIN", size: "160mm", price: 395 },
+            { color: "SATIN", size: "224mm", price: 512 },
+            { color: "SATIN", size: "288mm", price: 624 }
+            { color: "ROSE-GOLD", size: "96mm", price: 267 },
+            { color: "ROSE-GOLD", size: "160mm", price: 395 },
+            { color: "ROSE-GOLD", size: "224mm", price: 512 },
+            { color: "ROSE-GOLD", size: "288mm", price: 624 }
+            { color: "BLACK-SATIN", size: "96mm", price: 284 },
+            { color: "BLACK-SATIN", size: "160mm", price: 427 },
+            { color: "BLACK-SATIN", size: "224mm", price: 552 },
+            { color: "BLACK-SATIN", size: "288mm", price: 673 }
+        ]
+    }
+    { 
+        id: 3, 
+        name: "AH-009", 
+        category: "handels", 
+        img: "C:\Agrawal Hardware\Individual Images\AH 001 CP SATIN (1)",
+        colorOptions: ["RG-BS", "GOLD-BLACK", "CP-SATIN"],
+        sizeOptions: ["96mm", "160mm", "224mm", "288mm"],
+        variants: [
+            { color: "RG-BS", size: "96mm", price: 368 },
+            { color: "RG-BS", size: "160mm", price: 590 },
+            { color: "RG-BS", size: "224mm", price: 826 },
+            { color: "RG-BS", size: "288mm", price: 996 }
+            { color: "GOLD-BLACK", size: "96mm", price:  },
+            { color: "GOLD-BLACK", size: "160mm", price: 395 },
+            { color: "GOLD-BLACK", size: "224mm", price: 512 },
+            { color: "GOLD-BLACK", size: "288mm", price: 624 }
+            { color: "CP-SATIN", size: "96mm", price: 267 },
+            { color: "CP-SATIN", size: "160mm", price: 395 },
+            { color: "CP-SATIN", size: "224mm", price: 512 },
+            { color: "CP-SATIN", size: "288mm", price: 624 }
         ]
     }
 ];
