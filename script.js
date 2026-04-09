@@ -22,7 +22,7 @@ const products = [
         id: 2, 
         name: "Modern Designer Knob", 
         category: "knobs", 
-        img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600",
+        img: "C:\Agrawal Hardware\Individual Images\AH 001 CP SATIN (1)",
         colorOptions: ["Chrome", "Black"],
         sizeOptions: ["25mm", "30mm"],
         variants: [
