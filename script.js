@@ -4,26 +4,28 @@ const products = [
         name: "Architectural Handle AH-001",
         category: "handels", 
         img: "https://images.unsplash.com/photo-1623073344440-6216f9f30e9d?w=600",
-        colorOptions: ["RG-BS", "SATIN ROSE-GOLD", "BLACK-SATIN"],
+        colorOptions: ["CP-SATIN", "RG-BS"],
         sizeOptions: ["96mm", "160mm", "224mm", "288mm"],
         // You can set different prices for every combo here
         variants: [
-            { color: "RG-BS", size: "96mm", price: 500 },
-            { color: "RG-BS", size: "160mm", price: 650 },
-            { color: "SATIN ROSE-GOLD", size: "96mm", price: 700 },
-            { color: "SATIN ROSE-GOLD", size: "160mm", price: 850 },
-            { color: "BLACK-SATIN", size: "96mm", price: 550 },
-            { color: "BLACK-SATIN", size: "288mm", price: 1200 }
+            { color: "RG-BS", size: "96mm", price: 136 },
+            { color: "RG-BS", size: "160mm", price: 215 },
+            { color: "RG-BS", size: "224mm", price: 300 },
+            { color: "RG-BS", size: "288mm", price: 359 },
+            { color: "CP-SATIN", size: "96mm", price: 136 },
+            { color: "CP-SATIN", size: "160mm", price: 215 },
+            { color: "CP-SATIN", size: "224mm", price: 300 },
+            { color: "CP-SATIN", size: "288mm", price: 359 }
             // Add more as per your price list
         ]
     },
     { 
-        id: "AH-002",
-        name: "Architectural Handle AH-002",
+        id: "AH-005",
+        name: "Architectural Handle AH-005",
         category: "handels", 
         img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600",
-        colorOptions: ["RG-BS", "BLACK-SATIN"],
-        sizeOptions: ["96mm", "160mm", "224mm"],
+        colorOptions: ["RG-BS"],
+        sizeOptions: ["96mm", "160mm", "224mm", "288mm"],
         variants: [
             { color: "RG-BS", size: "96mm", price: 400 },
             { color: "BLACK-SATIN", size: "96mm", price: 420 }
