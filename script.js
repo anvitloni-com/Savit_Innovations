@@ -24,18 +24,6 @@ const products = [
             { color: "Chrome", size: "25mm", price: 150 },
             { color: "Gold", size: "25mm", price: 200 }
         ]
-    },
-    { 
-        id: "CH-001", 
-        name: "Concealed Handle CH-001", 
-        category: "concealed", 
-        img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600",
-        colorOptions: ["Silver", "Black"],
-        sizeOptions: ["128mm", "160mm"],
-        variants: [
-            { color: "Silver", size: "128mm", price: 400 },
-            { color: "Black", size: "128mm", price: 450 }
-        ]
     }
 ];
 
@@ -76,27 +64,6 @@ function initProducts(list = products) {
     });
 }
 
-function setCategory(cat, btn) {
-    currentCategory = cat;
-    // Update UI for buttons
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterProducts();
-}
-
-function filterProducts() {
-    const term = document.getElementById('search-input').value.toLowerCase();
-    const filtered = products.filter(p => {
-        const matchCat = currentCategory === 'all' || p.category === currentCategory;
-        const matchSearch = p.id.toLowerCase().includes(term) || p.name.toLowerCase().includes(term);
-        return matchCat && matchSearch;
-    });
-    initProducts(filtered);
-}
-
-// ... Rest of the functions (updateVariantPrice, addToCart, updateCartUI, checkoutWhatsApp) ...
-// (Make sure to include all functions from the previous script.js version)
-
 function updateVariantPrice(pId) {
     const p = products.find(x => x.id === pId);
     const color = document.getElementById(`color-${pId}`).value;
@@ -118,6 +85,7 @@ function addToCart(id) {
     const size = document.getElementById(`size-${id}`).value;
     const variant = p.variants.find(v => v.color === color && v.size === size);
     const price = variant ? variant.price : 0;
+    
     cart.push({ id, name: p.name, qty, color, size, price, subtotal: price * qty });
     updateCartUI();
     document.getElementById('cart-sidebar').classList.add('active');
@@ -128,19 +96,57 @@ function updateCartUI() {
     const itemsDiv = document.getElementById('cart-items');
     let total = 0;
     itemsDiv.innerHTML = '';
+    
     cart.forEach((item, index) => {
         total += item.subtotal;
-        itemsDiv.innerHTML += `<div class="cart-item"><div><strong>${item.id}</strong><br><small>${item.color} | ${item.size}</small></div><div>₹${item.subtotal}</div></div>`;
+        itemsDiv.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.id}</strong><br>
+                    <small>${item.color} | ${item.size} | Qty: ${item.qty}</small>
+                </div>
+                <div>
+                    ₹${item.subtotal} 
+                    <i class="fas fa-trash remove-btn" onclick="removeItem(${index})"></i>
+                </div>
+            </div>`;
     });
     document.getElementById('cart-total').innerText = total;
 }
 
-function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+// THE MISSING DELETE FUNCTION
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function toggleCart() {
+    document.getElementById('cart-sidebar').classList.toggle('active');
+}
+
+function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterProducts();
+}
+
+function filterProducts() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => {
+        const matchCat = currentCategory === 'all' || p.category === currentCategory;
+        const matchSearch = p.id.toLowerCase().includes(term);
+        return matchCat && matchSearch;
+    });
+    initProducts(filtered);
+}
 
 function checkoutWhatsApp() {
     if(cart.length === 0) return alert("Cart is empty");
     let msg = "*ORDER FROM SAVIT INNOVATIONS*%0a%0a";
-    cart.forEach((item, i) => { msg += `${i+1}. *${item.id}*%0a- Finish: ${item.color}%0a- Size: ${item.size}%0a- Qty: ${item.qty}%0a- Price: ₹${item.subtotal}%0a%0a`; });
+    cart.forEach((item, i) => {
+        msg += `${i+1}. *${item.id}*%0a- Finish: ${item.color}%0a- Size: ${item.size}%0a- Qty: ${item.qty}%0a- Total: ₹${item.subtotal}%0a%0a`;
+    });
     msg += `*GRAND TOTAL: ₹${document.getElementById('cart-total').innerText}*`;
     window.open(`https://wa.me/919980056119?text=${msg}`);
 }
