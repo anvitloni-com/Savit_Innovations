@@ -25,16 +25,17 @@
         </div>
     </section>
 
-    <section class="trust-bar">
-        <div class="feature"><i class="fas fa-shipping-fast"></i> <span>Fast Shipping</span></div>
-        <div class="feature"><i class="fas fa-check-circle"></i> <span>Premium Quality</span></div>
-        <div class="feature"><i class="fas fa-handshake"></i> <span>Wholesale Pricing</span></div>
-        <div class="feature"><i class="fas fa-shield-alt"></i> <span>MIT Licensed</span></div>
-    </section>
-
     <section class="controls">
         <div class="search-container">
             <input type="text" id="search-input" placeholder="Search AH-001, AH-002..." onkeyup="filterProducts()">
+        </div>
+        
+        <!-- NEW CATEGORY SECTION -->
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
+            <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
+            <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
+            <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed Handles</button>
         </div>
     </section>
 
@@ -42,6 +43,7 @@
         <div class="product-grid" id="product-grid"></div>
     </main>
 
+    <!-- Cart Sidebar -->
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Your Cart</h3>
