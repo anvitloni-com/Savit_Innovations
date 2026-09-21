@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Savit Innovations - premium AH-Series handles, knobs and concealed handles for modern living.">
     <title>Savit Innovations | Premium Hardware</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,10 +12,10 @@
 
     <nav class="navbar">
         <div class="logo">Savit Innovations</div>
-        <div class="cart-icon" onclick="toggleCart()">
+        <button class="cart-icon" onclick="toggleCart()" aria-label="Open cart">
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count">0</span>
-        </div>
+        </button>
     </nav>
 
     <section class="hero">
@@ -27,12 +28,12 @@
 
     <section class="controls">
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search AH-001, AH-002..." onkeyup="filterProducts()">
+            <input type="search" id="search-input" placeholder="Search AH-001, AH-002..." oninput="filterProducts()" aria-label="Search products">
         </div>
-        
+
         <div class="filter-container">
             <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
-            <button class="filter-btn" onclick="setCategory('handels', this)">Handles</button>
+            <button class="filter-btn" onclick="setCategory('handles', this)">Handles</button>
             <button class="filter-btn" onclick="setCategory('knobs', this)">Knobs</button>
             <button class="filter-btn" onclick="setCategory('concealed', this)">Concealed Handles</button>
         </div>
@@ -40,21 +41,28 @@
 
     <main class="product-container" id="products">
         <div class="product-grid" id="product-grid"></div>
+        <p id="empty-msg" class="empty-msg" hidden>No products found. Try another search or category.</p>
     </main>
 
-    <div id="cart-sidebar" class="cart-sidebar">
+    <footer class="footer">
+        <p>&copy; <span id="year"></span> Savit Innovations. All rights reserved.</p>
+        <p>Orders &amp; enquiries: <a href="https://wa.me/919980056119" target="_blank" rel="noopener">WhatsApp us</a></p>
+    </footer>
+
+    <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+    <aside id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">
         <div class="cart-header">
             <h3>Your Cart</h3>
-            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <button class="close-cart" onclick="toggleCart()" aria-label="Close cart">&times;</button>
         </div>
         <div id="cart-items"></div>
         <div class="cart-footer">
-            <div class="total-row"><span>Total:</span> ₹<span id="cart-total">0</span></div>
+            <div class="total-row"><span>Total:</span> <span>₹<span id="cart-total">0</span></span></div>
             <button class="checkout-btn" onclick="checkoutWhatsApp()">Confirm via WhatsApp</button>
         </div>
-    </div>
+    </aside>
 
-    <a href="https://wa.me/919980056119" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/919980056119" class="whatsapp-float" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
         <span>Chat Now</span>
     </a>
