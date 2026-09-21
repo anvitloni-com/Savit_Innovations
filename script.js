@@ -17,7 +17,6 @@ const PLACEHOLDER_IMG =
 const products = [
     {
         id: "AH-001",
-        name: "Premium Series AH-001",
         category: "handles",
         img: "AH 001 CP SATIN (1).jpg",
         variants: [
@@ -33,7 +32,6 @@ const products = [
     },
     {
         id: "AH-006",
-        name: "Designer Series AH-006",
         category: "handles",
         img: "AH 006  (1).png",
         variants: [
@@ -45,7 +43,6 @@ const products = [
     },
     {
         id: "AH-009",
-        name: "Luxury Series AH-009",
         category: "handles",
         img: "AH 009 GOLD-BLACK (1).jpg",
         variants: [
@@ -61,7 +58,6 @@ const products = [
     },
     {
         id: "AH-018",
-        name: "Elite Series AH-018",
         category: "handles",
         img: "AH 018 CHOCO BS (1).jpg",
         variants: [
@@ -77,7 +73,6 @@ const products = [
     },
     {
         id: "AH-024",
-        name: "Twist Series AH-024",
         category: "handles",
         img: "AH 024 CP (1).jpg",
         variants: [
